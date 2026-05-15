@@ -23,15 +23,21 @@
             extraPkgs = pkgs: with pkgs; [ icu ];
           };
           eden = let
-            version = "v0.2.0-rc2";
-          in pkgs.appimageTools.wrapType2 {
+            version = "v0.2.0";
+          in pkgs.stdenv.mkDerivation {
             name = "eden";
             version = "${version}";
             pname = "eden";
             src = pkgs.fetchurl {
               url = "https://stable.eden-emu.dev/${version}/Eden-Linux-${version}-amd64-gcc-standard.AppImage";
-              hash = "sha256-1Pp6VInWYfr8f8ANuT1ZBxe61xCWcTq/mNH8T6JZJJc=";
+              hash = "sha256-Fn1+z8sUWwsf+EdhpuAAZ+wRKIw1q6HV9GQ6GSK9V5o=";
             };
+            unpackPhase = "true";
+            installPhase = ''
+              mkdir -p $out/bin
+              cp $src $out/bin/eden
+              chmod +x $out/bin/eden
+            '';
           };
         };
         apps.${system} = {
