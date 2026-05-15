@@ -35,9 +35,11 @@
             unpackPhase = "true";
             installPhase = ''
               mkdir -p $out/bin
-              cp $src $out/bin/eden
-              chmod +x $out/bin/eden
+              cp "$src" "$out/bin/eden"
+              chmod +x "$out/bin/eden"
+              du -sh "$out/bin/eden"
             '';
+            fixupPhase = "true";
           };
         };
         apps.${system} = {
